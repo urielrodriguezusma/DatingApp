@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Datting.api.Controllers
 {
-  
+
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -28,7 +28,7 @@ namespace Datting.api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserForRegisterDto userForRegisterDto)
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             // validate Request
             if (ModelState.IsValid)

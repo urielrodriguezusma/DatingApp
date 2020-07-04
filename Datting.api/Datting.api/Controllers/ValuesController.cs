@@ -20,6 +20,7 @@ namespace Datting.api.Controllers
         {
             _dbContext = dbContext;
         }
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
