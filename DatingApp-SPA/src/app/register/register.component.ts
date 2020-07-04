@@ -1,6 +1,8 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { AlertyfyService } from '../services/alertyfy.service';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +17,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private auth: AuthService) { }
+    private auth: AuthService,
+    private alerty: AlertyfyService) { }
 
   ngOnInit(): void {
     this.frmRegister = this.fb.group({
@@ -29,8 +32,10 @@ export class RegisterComponent implements OnInit {
     if (this.frmRegister.valid) {
       this.model.userName = this.frmRegister.get('userName').value;
       this.model.password = this.frmRegister.get('password').value;
-      this.auth.register(this.model).subscribe(resp => {
-        console.log(resp);
+      this.auth.register(this.model).subscribe(() => {
+        this.alerty.success('Registration successfully');
+      }, err => {
+        this.alerty.error(err);
       });
     }
   }

@@ -20,6 +20,8 @@ export class ErrorInterceptorService implements HttpInterceptor {
           const applicationError = error.headers.get('Application-Error');
           if (applicationError) {
             return throwError(applicationError);
+          } else if (error.status === 0) {
+            return throwError('No existe conexión con el servicio');
           }
 
           const serverError = error.error;
