@@ -1,17 +1,28 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorInterceptorService implements HttpInterceptor {
+  private readonly authService = this.inject.get(AuthService);
 
-  constructor() { }
+  constructor(private inject: Injector) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    let request = req;
 
-    return next.handle(req).pipe(
+    if (this.authService.loggedIn()) {
+      request = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+    }
+
+    return next.handle(request).pipe(
       catchError(error => {
         if (error.status === 401) {
           return throwError(error.statusText);
