@@ -16,7 +16,7 @@ namespace Datting.api.Data
         }
         public async Task<User> Login(string userName, string password)
         {
-            var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.UserName.Equals(userName));
+            var user = await _dataContext.Users.Include(d=>d.Photos).FirstOrDefaultAsync(u => u.UserName.Equals(userName));
             if (user == null)
             {
                 return null;

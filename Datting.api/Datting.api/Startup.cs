@@ -36,6 +36,7 @@ namespace Datting.api
             });
 
             services.AddCors();
+            services.Configure<CloudinarySettings>(_configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             //var mappingConfig = new MapperConfiguration(mc =>
             //{
