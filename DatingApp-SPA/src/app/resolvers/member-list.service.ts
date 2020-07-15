@@ -4,20 +4,23 @@ import { User } from '../models/user.interface';
 import { Observable, EMPTY } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { AlertyfyService } from '../services/alertyfy.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { PaginatedResult } from '../models/pagination.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MemberListResolver implements Resolve<User[]> {
+export class MemberListResolver implements Resolve<PaginatedResult<User[]>> {
+  pageNumber = 1;
+  pageSize = 5;
 
   constructor(
     private userList: UserService,
     private route: Router,
     private alertify: AlertyfyService) { }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User[]> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PaginatedResult<User[]>> {
 
-    return this.userList.getUsers().pipe(
+    return this.userList.getUsers(this.pageNumber, this.pageSize).pipe(
       catchError(() => {
         this.alertify.error('Problem retriving users data!!!');
         this.route.navigate(['/home']);

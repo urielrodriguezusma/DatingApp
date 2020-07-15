@@ -23,7 +23,7 @@ namespace Datting.api.Controllers
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        public AuthController(IAuthRepository repo, IConfiguration config,IMapper mapper)
+        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
         {
             _repo = repo;
             _config = config;
@@ -42,10 +42,11 @@ namespace Datting.api.Controllers
                     return BadRequest("Username already exists");
                 }
 
-                var userToCreate = new User { UserName = userForRegisterDto.UserName };
+                var userToCreate = _mapper.Map<User>(userForRegisterDto);
                 var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
+                var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);
 
-                return StatusCode(201);
+                return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id }, userToReturn);
             }
 
             return BadRequest(ModelState);

@@ -13,6 +13,7 @@ export interface User {
     photoUrl: string;
     lookingFor?: string;
     photos?: Photo[];
+    password: string;
 }
 
 

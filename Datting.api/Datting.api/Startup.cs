@@ -36,6 +36,7 @@ namespace Datting.api
             });
 
             services.AddCors();
+
             services.Configure<CloudinarySettings>(_configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             //var mappingConfig = new MapperConfiguration(mc =>
@@ -45,8 +46,9 @@ namespace Datting.api
 
             //IMapper mapper = mappingConfig.CreateMapper();
             //services.AddSingleton(mapper);
+        
 
-         
+
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -62,6 +64,7 @@ namespace Datting.api
 
                         };
                     });
+            services.AddScoped<LogUserActivity>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,7 +92,7 @@ namespace Datting.api
             }
 
             app.UseRouting();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("Pagination"));
             app.UseAuthentication();
             app.UseAuthorization();
 
