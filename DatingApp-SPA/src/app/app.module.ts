@@ -26,6 +26,8 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ListComponent } from './list/list.component';
+import { MessagesComponent } from './messages/messages.component';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -42,7 +44,9 @@ export function tokenGetter() {
     MemberDetailComponent,
     MemberEditComponent,
     PhotoEditorComponent,
-    ListComponent
+    MessagesComponent,
+    ListComponent,
+    MemberMessagesComponent
   ],
   imports: [
     BrowserModule,

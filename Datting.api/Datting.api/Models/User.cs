@@ -22,6 +22,8 @@ namespace Datting.api.Models
         public ICollection<Photo> Photos { get; set; }
         public ICollection<Like> Liker { get; set; }
         public ICollection<Like> Likees { get; set; }
+        public ICollection <Message> MessagesSent { get; set; }
+        public ICollection <Message> MessageReceived { get; set; }
 
     }
 
