@@ -93,12 +93,15 @@ namespace Datting.api
 
             app.UseRouting();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("Pagination"));
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index", "Fullback");
             });
 
 
